@@ -1,40 +1,37 @@
 class MyQueue {
 public:
-    std::stack<int> inputStack;
-    std::stack<int> outputStack;
-
+stack<int>s1,s2;
     MyQueue() {
+        
+    }
     
-    }
-
     void push(int x) {
-        inputStack.push(x); 
+        while(s1.size()){
+            s2.push(s1.top());
+            s1.pop();
+        }
+        s1.push(x);
+        while(s2.size()){
+            s1.push(s2.top());
+            s2.pop();
+        }
     }
-
+    
     int pop() {
-        transferIfNeeded(); 
-        int front = outputStack.top();
-        outputStack.pop();
+        if (s1.empty()) {
+            return -1; 
+        }
+        int front=s1.top();
+        s1.pop();
         return front;
     }
-
+    
     int peek() {
-        transferIfNeeded();
-        return outputStack.top(); 
+        return s1.top();
     }
-
+    
     bool empty() {
-        return inputStack.empty() && outputStack.empty(); 
-    }
-
-private:
-    void transferIfNeeded() {
-        if (outputStack.empty()) {
-            while (!inputStack.empty()) {
-                outputStack.push(inputStack.top());
-                inputStack.pop();
-            }
-        }
+        return s1.empty();
     }
 };
 
