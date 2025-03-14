@@ -1,45 +1,26 @@
 class Solution {
-    long long func(vector<int>& arr, int mid, long long k) {
-        long long ans = 0;
-        for (int i = 0; i < arr.size(); i++)
-            if (mid > 0) ans += (arr[i] / mid);
-        return ans >= k;
-    }
-
 public:
-    long long maximumCandies(vector<int>& candies, long long k) {
-        long long l = 1;
-        long long h = *max_element(candies.begin(), candies.end());
-        while (l <= h) {
-            long long mid = (h + l) / 2;
-            if (func(candies, mid, k)) {
-                l = mid + 1;
-            } else {
-               class Solution {
-    long long func(vector<int>& arr, int mid, long long k) {
-        long long ans = 0;
-        for (int i = 0; i < arr.size(); i++)
-            if (mid > 0) ans += (arr[i] / mid);
-        return ans >= k;
-    }
-
-public:
-    long long maximumCandies(vector<int>& candies, long long k) {
-        long long l = 1;
-        long long h = *max_element(candies.begin(), candies.end());
-        while (l <= h) {
-            long long mid = (h + l) / 2;
-            if (func(candies, mid, k)) {
-                l = mid + 1;
-            } else {
-                h = mid - 1;
-            }
+    bool fun(vector<int>& candies, int mi, long long &k){
+        long long r = 0;
+        for(int i = 0; i<candies.size();i++){
+            r += (candies[i]/mi);
         }
-        return h;
+        return r >= k;
     }
-};
-            }
+    int maximumCandies(vector<int>& candies, long long k) {
+        int mx = 0;
+        for(int i: candies){
+            mx = max(mx, i);
         }
-        return h;
+        int l = 1, r = mx;
+        while(l <= r){
+            int m = l + (r - l) / 2;
+            if(fun(candies, m, k)){
+                l = m+1;
+            }
+            else r = m-1;
+        }
+        
+        return l-1;
     }
 };
