@@ -1,88 +1,80 @@
 class Solution {
 public:
-    vector<int> findNSE(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> nse(n);
+vector<int> getNSL(vector<int> &arr, int n) {
+        vector<int> result(n);
         stack<int> st;
-        for(int i=n-1; i>=0; i--) {
-            while(!st.empty() && nums[st.top()] >= nums[i])
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && arr[st.top()] >= arr[i])
                 st.pop();
-            nse[i] = st.empty() ? n : st.top();
+            result[i] = st.empty() ? -1 : st.top();
             st.push(i);
         }
-        return nse;
+        return result;
     }
-
-    vector<int> findPSEE(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> psee(n);
+    vector<int> getNSR(vector<int> &arr, int n) {
+        vector<int> result(n);
         stack<int> st;
-        for(int i=0; i<n; i++) {
-            while(!st.empty() && nums[st.top()] > nums[i])
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && arr[st.top()] > arr[i])
                 st.pop();
-            psee[i] = st.empty() ? -1 : st.top();
+            result[i] = st.empty() ? n : st.top();
             st.push(i);
         }
-        return psee;
+        return result;
     }
-
-    long long sumSubarrayMins(vector<int>& nums) {
-        vector<int> nse = findNSE(nums);
-        vector<int> psee = findPSEE(nums);
-
-        long long total = 0;
-        for(int i=0; i<nums.size(); i++) {
-            int left = i - psee[i];
-            int right = nse[i] - i;
-
-            total += right * left * 1LL * nums[i];
-        }
-        return total;
-    }
-
-    vector<int> findNGEE(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> ngee(n);
+    vector<int> getNGL(vector<int> &arr, int n) {
+        vector<int> result(n);
         stack<int> st;
-        for (int i = n-1; i>=0; i--) {
-            while (!st.empty() && nums[st.top()] < nums[i])
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && arr[st.top()] <= arr[i])
                 st.pop();
-            ngee[i] = st.empty() ? n : st.top();
+            result[i] = st.empty() ? -1 : st.top();
             st.push(i);
         }
-        return ngee;
+        return result;
     }
-
-    vector<int> findPGE(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> pge(n);
+    vector<int> getNGR(vector<int> &arr, int n) {
+        vector<int> result(n);
         stack<int> st;
-        for (int i=0; i<n; i++) {
-            while (!st.empty() && nums[st.top()] <= nums[i])
+        for (int i = n - 1; i >= 0; i--) {
+            while (!st.empty() && arr[st.top()] < arr[i])
                 st.pop();
-            pge[i] = st.empty() ? -1 : st.top();
+            result[i] = st.empty() ? n : st.top();
             st.push(i);
         }
-        return pge;
+        return result;
     }
-
-    long long sumSubarrayMax(vector<int>& nums) {
-        vector<int> ngee = findNGEE(nums);
-        vector<int> pge = findPGE(nums);
-
-        long long total = 0;
-        for (int i=0; i<nums.size(); i++) {
-            int left = i - pge[i];
-            int right = ngee[i] - i;
-            
-            total += right * left * 1LL * nums[i];
+     long long sumSubarrayMins(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> NSL = getNSL(arr, n);
+        vector<int> NSR = getNSR(arr, n);
+        long long sum = 0;
+        for (int i = 0; i < n; i++) {
+            long long left = i - NSL[i];
+            long long right = NSR[i] - i;
+            long long totalWays = left * right;
+            long long totalSum = (1LL * arr[i] * totalWays);
+            sum = (sum + totalSum) ;
         }
-        return total;
+        return sum;
     }
-
-    long long subArrayRanges(vector<int>& nums) {
-        long long maxSum = sumSubarrayMax(nums);
-        long long minSum = sumSubarrayMins(nums);
-        return maxSum - minSum;
+    long long sumSubarrayMaxs(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> NGL = getNGL(arr, n);
+        vector<int> NGR = getNGR(arr, n);
+        long long sum = 0;
+        for (int i = 0; i < n; i++) {
+            long long left = i - NGL[i];
+            long long right = NGR[i] - i;
+            long long totalWays = left * right;
+            long long totalSum = (1LL * arr[i] * totalWays);
+            sum = (sum + totalSum);
+        }
+        return sum;
+    }
+    long long subArrayRanges(vector<int>& arr) {
+        long long sumMax = sumSubarrayMaxs(arr);
+        long long sumMin = sumSubarrayMins(arr);
+         return ((sumMax - sumMin));
     }
 };
