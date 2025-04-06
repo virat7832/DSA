@@ -1,32 +1,41 @@
 class LRUCache {
 public:
-         list<pair<int,int>> l;
-        unordered_map<int,list<pair<int, int>>::iterator> m;
-        int size;
-        LRUCache(int capacity) {
-         size=capacity;
-       }
-     int get(int key) {
-        if(m.find(key)==m.end())
-                return -1;
-            l.splice(l.begin(),l,m[key]);
-            return m[key]->second;
+list<int>dll;
+map<int,pair<list<int>::iterator,int>>mp;
+int n;
+    LRUCache(int capacity) {
+        n=capacity;
     }
+    
+    void makeRecentlyUsed(int key){
+        dll.erase(mp[key].first);
+        dll.push_front(key);
+        mp[key].first=dll.begin();
+
+    }
+    int get(int key) {
+        if(mp.find(key)==mp.end()) return -1;
+        makeRecentlyUsed(key);
+        return mp[key].second;
+    }
+    
     void put(int key, int value) {
-        if(m.find(key)!=m.end())
-            {
-                l.splice(l.begin(),l,m[key]);
-                m[key]->second=value;
-                return;
-            }
-            if(l.size()==size)
-            {
-                auto d_key=l.back().first;
-                l.pop_back();
-                m.erase(d_key);
-            }
-            l.push_front({key,value});
-            m[key]=l.begin();
+        if(mp.find(key)!=mp.end()){
+            mp[key].second=value;
+            makeRecentlyUsed(key);
+        }
+        else{
+            dll.push_front(key);
+            mp[key]={dll.begin(),value};
+            n--;
+        }
+        if(n<0){
+            int key_tobe_del=dll.back();
+            mp.erase(key_tobe_del);
+            dll.pop_back();
+            n++;
+
+        }
     }
 };
 
