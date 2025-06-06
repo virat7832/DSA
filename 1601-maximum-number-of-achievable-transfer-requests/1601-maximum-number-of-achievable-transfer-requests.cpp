@@ -11,11 +11,12 @@ if(idx>=m){
             break;
         }
     }
-    if(allZero==true){
+    if(allZero){
         result=max(result,count);
 
     }
     return;
+}
     // request processed
     int from=requests[idx][0];
     int to=requests[idx][1];
@@ -27,7 +28,7 @@ if(idx>=m){
     resultant[to]--;
     solve(idx+1,count,n,resultant,requests);
 
-}
+
 }
     int maximumRequests(int n, vector<vector<int>>& requests) {
         m=requests.size();
