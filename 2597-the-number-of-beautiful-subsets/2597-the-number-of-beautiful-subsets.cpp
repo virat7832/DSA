@@ -22,6 +22,6 @@ if(!mp[nums[idx]-K] && !mp[nums[idx]+K]){
         K=k;
         unordered_map<int,int>mp;
         solve(0,nums,mp);
-        return result-1;
+        return result-1;  // excluding empty subset
     }
 };
