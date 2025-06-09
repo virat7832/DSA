@@ -27,7 +27,7 @@ public:
        
         while(low<=high){
             int mid=(low+high)/2;
-            int totalH=calculateTotalHours(piles,mid);
+            long long totalH=calculateTotalHours(piles,mid);
             if(totalH<=h){
                
                 high=mid-1;
