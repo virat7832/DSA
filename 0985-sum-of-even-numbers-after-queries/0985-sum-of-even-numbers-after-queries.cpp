@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<int> sumEvenAfterQueries(vector<int>& nums, vector<vector<int>>& queries) {
+        // find sumEven
+       // jispr operation lga rhe hai wo even hai  -> sumEven-subtract
+       // operation apply krenge 
+       // operation k baad jo number mil rha jispr operation lga rhe  agr even hai then add kr denge  sumEven me
+
+       int n=nums.size();
+       int q=queries.size();
+       int sumEven=0;
+       for(int &x:nums){
+        if(x%2==0){
+            sumEven+=x;
+        }
+       }
+       vector<int>result;
+       for(int i=0;i<q;i++){
+        int val=queries[i][0];
+        int idx=queries[i][1];
+        if(nums[idx]%2==0) sumEven-=nums[idx];
+        nums[idx]+=val;
+        if(nums[idx]%2==0) sumEven+=nums[idx];
+        result.push_back(sumEven);
+       }
+
+return result;
+    }
+};
