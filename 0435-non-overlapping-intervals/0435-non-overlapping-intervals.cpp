@@ -18,7 +18,7 @@ public:
             } else if(ce<=ne) {  //overlapping
                 j++;
                 count++;
-            } else if(ce>ne){
+            } else if(ce>ne){ //overlapping
                 i=j;
                 j++;
                 count++;
