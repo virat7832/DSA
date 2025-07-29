@@ -14,6 +14,7 @@ public:
 typedef unsigned long long ll;
     int widthOfBinaryTree(TreeNode* root) {
         queue<pair<TreeNode*,ll>>q;
+        if(root==NULL) return 0;
         q.push({root,0});
         ll maxWidth=0;
         while(!q.empty()){
