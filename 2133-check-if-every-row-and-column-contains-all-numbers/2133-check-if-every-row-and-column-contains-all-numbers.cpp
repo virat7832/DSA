@@ -1,33 +1,25 @@
 class Solution {
 public:
-	bool checkValid(vector<vector<int>>& matrix) {
-		int n = matrix.size();
-		if(n == 1){
-			return  true;
-		}
-		unordered_map<int, int> mp;
-		for(int i = 0; i < n; i++){
-			for(int j = 0; j < n; j++){
-				if(mp.count(matrix[i][j])){
-					return false;
-				}
-				else{
-					mp[matrix[i][j]]++;
-				}
-			}
-			mp.clear();
-		}
-		for(int i = 0; i < n; i++){
-			for(int j = 0; j < n; j++){
-				if(mp.count(matrix[j][i])){
-					return false;
-				}
-				else{
-					mp[matrix[j][i]]++;
-				}
-			}
-			mp.clear();
-		}
-		return true;
-	}
+    bool checkValid(vector<vector<int>>& m) {
+        vector<vector<int>>temp=m;
+        int n=m.size();
+        for(int i=0;i<m.size();i++){
+            for(int j=0;j<m[i].size();j++){
+                temp[i][j]=m[j][i];
+
+            }
+        }
+            for(int i=0;i<m.size();i++){
+            sort(m[i].begin(), m[i].end());
+            sort(temp[i].begin(), temp[i].end());
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                  if(m[i][j]!=j+1 || temp[i][j]!=j+1){
+                    return false;
+                  }
+            }
+        }
+    return true;
+    }
 };
