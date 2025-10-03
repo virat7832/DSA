@@ -1,15 +1,17 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
-        int n=s.size();
         unordered_map<char,int>mp;
-        for(int i=0;i<n;i++){
-            mp[s[i]]++;
+        int n=s.size();
+        for(char c:s){
+            mp[c]++;
         }
         for(int i=0;i<n;i++){
-         if(mp[s[i]]==1) return i;
+            if(mp[s[i]]==1){
+                return i;
+            }
         }
         return -1;
-        
+
     }
 };
